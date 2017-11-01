@@ -2,31 +2,23 @@ package main
 
 import (
 	"encoding/json"
-	"log"
+	"fmt"
 	"net/http"
 	"os"
-
-	"github.com/gorilla/mux"
 )
+
+func hello(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	json.NewEncoder(w).Encode("hello-wrold2")
+}
 
 func main() {
 	port := os.Getenv("PORT")
-
 	if port == "" {
-		log.Fatal("$PORT must be set")
+		port = "5000"
+		fmt.Println("passou aqui")
 	}
-
-	rotas := mux.NewRouter().StrictSlash(true)
-	rotas.HandleFunc("/", getMembros).Methods("GET")
-
-	log.Fatal(http.ListenAndServe(port, rotas))
-
-}
-
-func getMembros(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
-	// u := User{Id: "US123", Balance: 8}
-
-	json.NewEncoder(w).Encode("u")
+	http.HandleFunc("/", hello)
+	http.ListenAndServe(":"+port, nil)
 }
