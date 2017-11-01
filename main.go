@@ -1,12 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"os"
 
-	"github.com/gin-gonic/gin"
-	_ "github.com/heroku/x/hmetrics/onload"
+	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -16,14 +16,17 @@ func main() {
 		log.Fatal("$PORT must be set")
 	}
 
-	router := gin.New()
-	router.Use(gin.Logger())
-	router.LoadHTMLGlob("templates/*.tmpl.html")
-	router.Static("/static", "static")
+	rotas := mux.NewRouter().StrictSlash(true)
+	rotas.HandleFunc("/", getMembros).Methods("GET")
 
-	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.tmpl.html", nil)
-	})
+	log.Fatal(http.ListenAndServe(port, rotas))
 
-	router.Run(":" + port)
+}
+
+func getMembros(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	// u := User{Id: "US123", Balance: 8}
+
+	json.NewEncoder(w).Encode("u")
 }
