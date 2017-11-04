@@ -1,7 +1,0 @@
-{
-    "rootPath": "https://github.com/ronnyarruda20/goteste.git",
-    "heroku": {
-        "install" : [ "./..." ],
-        "goVersion": "go1.9"
-         }
-}
