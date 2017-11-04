@@ -10,7 +10,7 @@ import (
 func hello(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode("hello-wrold2")
+	json.NewEncoder(w).Encode("say hello-wrold")
 }
 
 func main() {
